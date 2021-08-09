@@ -6,7 +6,7 @@ Here we distribute the data lists and reference the mixing scripts to reproduce 
 
 ### Conditions
 
-The database is derived from the WSJ0-2mix-extr [1] database which is an adaptation of the popular WSJ0-2mix database [2]. For more information on WSJ0-2mix-extr, please visit the referenced repository. The database consists of 20,000, 5,000, and 3,000 utterances for training, validation and test datasets. Because each speaker in a two-talker mixture can be considered as a target speaker, each mixture can be used twice. This doubles the amount of data. For further information on how to simulate the data to reproduce our experiments, please see section "Database simulation" below.
+The database is derived from the WSJ0-2mix-extr [1] database which is an adaptation of the popular WSJ0-2mix database [2]. For more information on WSJ0-2mix-extr, please visit the referenced repository. The database consists of 20,000, 5,000, and 3,000 utterances for training, validation and test sets respectively. Because each speaker in a two-talker mixture can be considered as a target speaker, each mixture can be used twice. This doubles the amount of data. For further information on how to simulate the data to reproduce our experiments, please see section "Database simulation".
 
 We modified the WSJ0-2mix-extr database to cover four different conditions to model the aforementioned real-world everyday conversational situations:
 - **2T-PT:** Two talkers in the input mixture and the target speaker is present in the mixture (this is the commonly investigated condition).
@@ -19,14 +19,14 @@ Each condition comprises data triples (audio files) in the following way:
 |  | 2T-PT | 1T-PT | 2T-AT | 1T-AT |
 |-----|-------|-------|-------|-------|
 | Input mixture (mix)| Two talkers | One talker | Two talkers | One talker |
-| Target speaker's reference (aux)| Target speaker | Target speaker | Target speaker | Target speaker |
+| Target speaker's reference (aux) | One of the mixture's talkers | The mixture's talker | A talker different to the mixture's talkers | A talker different to the mixture's talker |
 | Ground truth (ref) | Target speaker's speech | Target speaker's speech | Silence | Silence |
 
 **Hint:** The target speaker's reference signal (aux) is usually given by an utterance which is different from the target speaker's utterance in the input mixture. However, for some cases in the training and validation sets the reference signal utterance is the same as in the mixture. This simulates a speaker verification mechanism in which the same reference/enrolment speech has to pass through both speaker encoder and speaker extraction parts.
 
 ### Compositions
 
-The data is used as "min" version with "8 kHz" sampling frequency. We provide the single training, validation and test data lists for each of the four conditions. The speakers in the respective subset are the same for each condition, e.g. the speakers in the training set for 2T-PT are the same as in the three other training sets. Moreover, the input mixtures for 2T-PT and 2T-AT as well as for 1T-PT and 1T-AT are respectively the same.
+The data is used as "min" version with "8 kHz" sampling frequency. We provide the single training, validation and test data lists for each of the four conditions. The speakers in the respective subset are the same for each condition, e.g. the speakers in the training set for 2T-PT are the same as in the three other training sets. Moreover, the input mixtures for 2T-PT and 2T-AT as well as for 1T-PT and 1T-AT are respectively the same. This also applies to the validation and test sets.
 
 |  | # utterances (tr / cv / tt) |
 |----------|:-----------------------------:|
@@ -35,16 +35,16 @@ The data is used as "min" version with "8 kHz" sampling frequency. We provide th
 | 2T-AT    | 40,000 / 10,000 / 6,000     |
 | 1T-AT    | 40,000 / 10,000 / 6,000     |
 
-While the test datasets are the same, we provide different compositions of training and validation data as follows.
+While the test datasets remain the same, we provide different compositions of training and validation data as follows.
 
-The 2T-AT-50 and 1T-AT-50 datasets contain 50 % (randomly selected) of the data of 2T-AT and 1T-AT respectively. This created smaller datasets for the absent target speaker conditions.
+The 2T-AT-50 and 1T-AT-50 datasets contain 50 % (randomly selected) of the data of 2T-AT and 1T-AT respectively. This leads to smaller datasets for the absent target speaker conditions.
 
 |  | # utterances (tr / cv) |
 |----------|:-----------------------------:|
 | 2T-AT-50    | 20,000 / 5,000 |
 | 1T-AT-50    | 20,000 / 5,000 |
 
-We randomly removed 15 % of both 2T-PT and 1T-PT datasets and used those portions to create their counterparts with absent target speakers. This created datasets in which the input mixtures for the present and absent target speaker conditions are different. This aims to reduce the model confusion during the training stage.  
+We randomly removed 15 % of both 2T-PT and 1T-PT datasets and used those portions to create their counterparts with absent target speakers. This created datasets in which the input mixtures for the present and absent target speaker conditions are different. This tends to reduce the model confusion during the training stage.  
 
 |  | # utterances (tr / cv) |
 |----------|:-----------------------------:|
@@ -59,11 +59,11 @@ We randomly removed 15 % of both 2T-PT and 1T-PT datasets and used those portion
 Please perform the following steps to recreate our database:
 
 1. Get access to the Wall Street Journal corpus (WSJ0) [3] with an appropriate license. Convert the corpus to the .wav format (remove all files with .wv2 extension and rename the remaining .wv1 files to .wav).
-2. Use the original Matlab scripts [4] to create the WSJ0-2mix database [2] as min version with 8 kHz sampling frequency. This provides the input mixtures as well as ground truth signals for the speaker extraction.
+2. Use the original Matlab scripts [4] to create the WSJ0-2mix database [2] as "min" version with "8 kHz" sampling frequency. This provides the input mixtures as well as ground truth signals (PT conditions) for the speaker extraction.
 3. Create 8 kHz resampled versions of the WSJ0 .wav files in the folders "si_dt_05", "si_et_05", and "si_tr_s". Those files will be used as reference signals for the target speakers and need to match the sampling frequency of the WSJ0-2mix database. For this, you can use the resample() method from the aforementioned Matlab scripts and wrap it into a new script. Make sure that the resampled audio files have the same properties as the audio files in the WSJ0-2mix database.
 3. Create a new empty folder ("wsj0-2mix_silent_ref") for the silent audio files (ground truth for the absent target speaker conditions). You will create the silent audio files in step 5.
-4. Change the PATHS in ALL data lists according to your folder structure.
-5. Run the "/src/data/create_silent_refs.py" script. This will create the silent ground truth (ref) files for the absent target speaker conditions (.wav audio files; 8 kHz sampling frequency). Provide the path to the created wsj0-2mix_silent_ref folder as argument ("python create_silent_refs.py --output /PATH/wsj0-2mix_silent_ref/").
+4. Change the PATHS in ALL data lists (.txt files in "/src/data/data_lists/*") according to your folder structure.
+5. Run the "/src/data/create_silent_refs.py" script. This will create the silent ground truth (ref) files for the absent target speaker conditions (.wav audio files; 8 kHz sampling frequency). Provide the path to the previously created wsj0-2mix_silent_ref folder as argument ("python create_silent_refs.py --output /PATH/wsj0-2mix_silent_ref/"). The script will create the respective subfolders.
 6. Use the "/src/data/concatenate_data_lists.py" script in order to concatenate the desired data lists. The script can concatenate two lists at a time.
 
 The keys in the data lists contain a pre-identifier for each condition:
