@@ -89,7 +89,7 @@ You can find our paper here: *To be defined*
 [3] https://catalog.ldc.upenn.edu/LDC93S6A  
 [4] Y. Isik, J. Le Roux, S. Watanabe Z. Chen, and J. R. Hershey, “Scripts to Create wsj0-2 Speaker Mixtures,” MERL Research. Retrieved June 2, 2020, from https://www.merl.com/demos/deep-clustering/create-speaker-mixtures.zip, [Online].
 
-## License
+## Licenses
 
 - The used mixing scripts to create the WSJ0-2mix database [2] are under the Apache 2.0 license, see [4].  
 - You can get access to the Wall Street Journal corpus (WSJ0) [3] by purchasing an appropriate license.  
