@@ -78,14 +78,14 @@ The keys in the data lists contain a pre-identifier for each condition:
 
 ## If you enjoyed working with this Universal Speaker Extraction approach, please cite us:  
 
-```@inproceedings{borsdorf21_interspeech,
-  author={Marvin Borsdorf and Chenglin Xu and Haizhou Li and Tanja Schultz},
-  title={{Universal Speaker Extraction in the Presence and Absence of Target Speakers for Speech of One and Two Talkers}},
-  year=2021,
-  booktitle={Proc. Interspeech 2021},
-  pages={1469--1473},
-  doi={10.21437/Interspeech.2021-1939}
-}
+```
+@inproceedings{borsdorf21_interspeech,
+author={Marvin Borsdorf and Chenglin Xu and Haizhou Li and Tanja Schultz},
+title={{Universal Speaker Extraction in the Presence and Absence of Target Speakers for Speech of One and Two Talkers}},
+year=2021,
+booktitle={Proc. Interspeech 2021},
+pages={1469--1473},
+doi={10.21437/Interspeech.2021-1939}}
 ```
 
 ## References
